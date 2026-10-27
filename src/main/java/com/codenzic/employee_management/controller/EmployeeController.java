@@ -3,6 +3,7 @@ package com.codenzic.employee_management.controller;
 import com.codenzic.employee_management.dto.EmployeeRequest;
 import com.codenzic.employee_management.dto.EmployeeResponse;
 import com.codenzic.employee_management.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/create")
-    public EmployeeResponse createEmployee(@RequestBody EmployeeRequest request) {
+    public EmployeeResponse createEmployee(@Valid @RequestBody EmployeeRequest request) {
         return employeeService.createEmployee(request);
     }
 
@@ -33,7 +34,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public EmployeeResponse updateEmployee(@PathVariable Long id,@RequestBody EmployeeRequest request) {
+    public EmployeeResponse updateEmployee(@PathVariable Long id,@Valid @RequestBody EmployeeRequest request) {
         return employeeService.updateEmployee(id, request);
     }
 
