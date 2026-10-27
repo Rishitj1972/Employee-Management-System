@@ -19,7 +19,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public EmployeeResponse createEmployee(@Valid @RequestBody EmployeeRequest request) {
         return employeeService.createEmployee(request);
     }
@@ -43,5 +43,10 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
+    }
+
+    @GetMapping("/search")
+    public List<EmployeeResponse> searchByDepartment(@RequestParam String department) {
+        return employeeService.searchByDepartment(department);
     }
 }

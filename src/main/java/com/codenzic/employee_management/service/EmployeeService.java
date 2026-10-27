@@ -112,4 +112,19 @@ public class EmployeeService {
 
         employeeRepository.delete(employee);
     }
+
+    public List<EmployeeResponse> searchByDepartment(String department) {
+
+        List<Employee> employees = employeeRepository.findByDepartmentIgnoreCase(department);
+
+        return employees.stream().map(
+                employee -> new EmployeeResponse(
+                        employee.getId(),
+                        employee.getFirstName(),
+                        employee.getLastName(),
+                        employee.getEmail(),
+                        employee.getDepartment()
+                )
+        ).toList();
+    }
 }
