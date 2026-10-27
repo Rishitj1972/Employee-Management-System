@@ -65,4 +65,26 @@ public class EmployeeService {
                 employee.getDepartment()
         );
     }
+
+    public EmployeeResponse updateEmployee(Long id,EmployeeRequest request) {
+
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found with id = "+id));
+
+        employee.setFirstName(request.getFirstName());
+        employee.setLastName(request.getLastName());
+        employee.setEmail(request.getEmail());
+        employee.setEmail(request.getEmail());
+        employee.setDepartment(request.getDepartment());
+
+        Employee updatedEmployee = employeeRepository.save(employee);
+
+        return new EmployeeResponse(
+                updatedEmployee.getId(),
+                updatedEmployee.getFirstName(),
+                updatedEmployee.getLastName(),
+                updatedEmployee.getEmail(),
+                updatedEmployee.getDepartment()
+        );
+    }
 }
