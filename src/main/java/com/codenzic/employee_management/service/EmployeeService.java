@@ -3,6 +3,7 @@ package com.codenzic.employee_management.service;
 import com.codenzic.employee_management.dto.EmployeeRequest;
 import com.codenzic.employee_management.dto.EmployeeResponse;
 import com.codenzic.employee_management.entity.Employee;
+import com.codenzic.employee_management.exception.EmployeeNotFoundException;
 import com.codenzic.employee_management.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +56,9 @@ public class EmployeeService {
     public EmployeeResponse getEmployeeById(Long id) {
 
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id = "+id));
+                .orElseThrow(() -> new EmployeeNotFoundException(
+                        "Employee not found with id "+id
+                ));
 
         return new EmployeeResponse(
                 employee.getId(),
@@ -69,7 +72,9 @@ public class EmployeeService {
     public EmployeeResponse updateEmployee(Long id,EmployeeRequest request) {
 
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id = "+id));
+                .orElseThrow(() -> new EmployeeNotFoundException(
+                        "Employee not found with "+id
+                ));
 
         employee.setFirstName(request.getFirstName());
         employee.setLastName(request.getLastName());
@@ -91,7 +96,9 @@ public class EmployeeService {
     public void deleteEmployee(Long id) {
 
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee with id"+id+" not found"));
+                .orElseThrow(() -> new EmployeeNotFoundException(
+                        "Employee not found with id "+id
+                ));
 
         employeeRepository.delete(employee);
     }
