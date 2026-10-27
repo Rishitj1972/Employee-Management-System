@@ -51,4 +51,18 @@ public class EmployeeService {
                 ))
                 .toList();
     }
+
+    public EmployeeResponse getEmployeeById(Long id) {
+
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found with id = "+id));
+
+        return new EmployeeResponse(
+                employee.getId(),
+                employee.getFirstName(),
+                employee.getLastName(),
+                employee.getEmail(),
+                employee.getDepartment()
+        );
+    }
 }
