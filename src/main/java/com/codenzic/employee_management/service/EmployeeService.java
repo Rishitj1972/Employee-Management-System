@@ -5,6 +5,10 @@ import com.codenzic.employee_management.dto.EmployeeResponse;
 import com.codenzic.employee_management.entity.Employee;
 import com.codenzic.employee_management.exception.EmployeeNotFoundException;
 import com.codenzic.employee_management.repository.EmployeeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,19 +42,25 @@ public class EmployeeService {
         );
     }
 
-    public List<EmployeeResponse> getAllEmployee() {
+    public Page<EmployeeResponse> getAllEmployee(int page, int size) {
 
-        List<Employee> employees = employeeRepository.findAll();
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by("id").ascending()
+        );
 
-        return employees.stream()
-                .map(employee -> new EmployeeResponse(
+        Page<Employee> employees = employeeRepository.findAll(pageable);
+
+
+        return employees.map(employee ->
+                new EmployeeResponse(
                         employee.getId(),
                         employee.getFirstName(),
                         employee.getLastName(),
                         employee.getEmail(),
                         employee.getDepartment()
-                ))
-                .toList();
+                ));
     }
 
     public EmployeeResponse getEmployeeById(Long id) {

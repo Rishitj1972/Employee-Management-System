@@ -4,6 +4,7 @@ import com.codenzic.employee_management.dto.EmployeeRequest;
 import com.codenzic.employee_management.dto.EmployeeResponse;
 import com.codenzic.employee_management.service.EmployeeService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +25,9 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<EmployeeResponse> getAllEmployees() {
-        return employeeService.getAllEmployee();
+    public Page<EmployeeResponse> getAllEmployees(@RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "5") int size) {
+        return employeeService.getAllEmployee(page,size);
     }
 
     @GetMapping("/{id}")
