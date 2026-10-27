@@ -87,4 +87,12 @@ public class EmployeeService {
                 updatedEmployee.getDepartment()
         );
     }
+
+    public void deleteEmployee(Long id) {
+
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee with id"+id+" not found"));
+
+        employeeRepository.delete(employee);
+    }
 }
